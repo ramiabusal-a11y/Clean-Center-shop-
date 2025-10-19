@@ -162,52 +162,28 @@
         const idb = {
             async getAll(storeName) {
                 const dbInstance = await openDB();
-                return new Promise((resolve, reject) => {
-                    const transaction = dbInstance.transaction(storeName, 'readonly');
-                    const store = transaction.objectStore(storeName);
-                    const request = store.getAll();
+            <!-- ✅ ربط Firebase بالطريقة الصحيحة لتعمل على Vercel -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
-                    request.onsuccess = () => resolve(request.result);
-                    request.onerror = () => reject(request.error);
-                });
-            },
-            async get(storeName, id) {
-                const dbInstance = await openDB();
-                return new Promise((resolve, reject) => {
-                    const transaction = dbInstance.transaction(storeName, 'readonly');
-                    const store = transaction.objectStore(storeName);
-                    const request = store.get(id);
+<script>
+  // ⚙️ إعداد Firebase Config الفعلي لمشروعك cleane-center-shop
+  const firebaseConfig = {
+    apiKey: "AIzaSyAQE_hCUNxo9_hFhSL5U2Jv5",
+    authDomain: "cleane-center-shop.firebaseapp.com",
+    projectId: "cleane-center-shop",
+    storageBucket: "cleane-center-shop.appspot.com",
+    messagingSenderId: "687911431635",
+    appId: "1:687911431635:web:d6580f8b6d861d4d",
+    measurementId: "G-TXDX6L3RV5"
+  };
 
-                    request.onsuccess = () => resolve(request.result);
-                    request.onerror = () => reject(request.error);
-                });
-            },
-            async put(storeName, item) {
-                const dbInstance = await openDB();
-                return new Promise((resolve, reject) => {
-                    const transaction = dbInstance.transaction(storeName, 'readwrite');
-                    const store = transaction.objectStore(storeName);
-                    
-                    // استخدام ID موجود أو توليد واحد جديد
-                    const itemToStore = { ...item, id: item.id || crypto.randomUUID() };
-                    const request = store.put(itemToStore);
+  // 🚀 تشغيل Firebase وربط Firestore
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
 
-                    request.onsuccess = () => resolve(itemToStore.id);
-                    request.onerror = () => reject(request.error);
-                });
-            },
-            async delete(storeName, id) {
-                const dbInstance = await openDB();
-                return new Promise((resolve, reject) => {
-                    const transaction = dbInstance.transaction(storeName, 'readwrite');
-                    const store = transaction.objectStore(storeName);
-                    const request = store.delete(id);
-
-                    request.onsuccess = () => resolve();
-                    request.onerror = () => reject(request.error);
-                });
-            },
-            async clearAll() {
+  console.log("✅ Firebase تم الاتصال بنجاح مع مشروع cleane-center-shop");
+</script>  
                 const dbInstance = await openDB();
                 return new Promise((resolve, reject) => {
                     const transaction = dbInstance.transaction(STORE_NAMES, 'readwrite');
