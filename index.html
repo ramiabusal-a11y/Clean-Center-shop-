@@ -1817,34 +1817,6 @@
   uploadsFeed.style.borderTop = "2px solid #eee";
   uploadsFeed.innerHTML = "<h3 style='grid-column:1/-1;text-align:center;'>📂 الملفات المرفوعة</h3>";
   document.body.appendChild(uploadsFeed);
-
-  // 🧩 دالة عرض الملفات داخل الصفحة
-  function renderUploads(docs) {
-    uploadsFeed.innerHTML = "<h3 style='grid-column:1/-1;text-align:center;'>📂 الملفات المرفوعة</h3>";
-    docs.forEach(doc => {
-      const data = doc.data();
-      const card = document.createElement("div");
-      card.style.border = "1px solid #ccc";
-      card.style.borderRadius = "10px";
-      card.style.padding = "8px";
-      card.style.background = "#fff";
-      card.style.textAlign = "center";
-      card.style.boxShadow = "0 2px 4px rgba(0,0,0,0.1)";
-      card.innerHTML = data.type === "فيديو"
-        ? `<video src="${data.url}" controls width="100%" style="border-radius:8px;"></video>`
-        : `<img src="${data.url}" style="width:100%;border-radius:8px;">`;
-      card.innerHTML += `<p>${data.user || "زائر"}</p><small>${new Date(data.createdAt).toLocaleString()}</small>`;
-      uploadsFeed.appendChild(card);
-    });
-  }
-
-  // 🔁 جلب التحديثات الفورية من Firestore
-  if (typeof db !== "undefined" && db) {
-    const uploadsQuery = query(collection(db, "uploads"), orderBy("createdAt", "desc"));
-    onSnapshot(uploadsQuery, (snapshot) => renderUploads(snapshot.docs));
-  } else {
-    console.warn("⚠️ لم يتم العثور على قاعدة البيانات db. تأكد من تحميل Firebase قبل هذا السكربت.");
-  }
 </script>
 <input type="file" id="uploadInput" style="display:block;margin:20px;">
 </body>
